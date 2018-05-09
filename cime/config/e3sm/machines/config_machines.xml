@@ -596,26 +596,40 @@
 
 <machine MACH="mac">
     <DESC>Mac OS/X workstation or laptop</DESC>
-    <NODENAME_REGEX></NODENAME_REGEX>
+    <NODENAME_REGEX>none</NODENAME_REGEX>
     <TESTS>e3sm_developer</TESTS>
-    <OS>Darwin</OS>
+    <BATCH_SYSTEM>none</BATCH_SYSTEM>
+    <module_system type="none"></module_system>
+    <OS>LINUX</OS>
     <COMPILERS>gnu</COMPILERS>
-    <MPILIBS>openmpi,mpich</MPILIBS>
-    <RUNDIR>$ENV{HOME}/projects/acme/scratch/$CASE/run</RUNDIR>
-    <EXEROOT>$ENV{HOME}/projects/acme/scratch/$CASE/bld</EXEROOT>
-    <DIN_LOC_ROOT>$ENV{HOME}/projects/acme/cesm-inputdata</DIN_LOC_ROOT>    <DIN_LOC_ROOT_CLMFORC>$ENV{HOME}/projects/acme/ptclm-data</DIN_LOC_ROOT_CLMFORC>
-    <DOUT_S_ROOT>$ENV{HOME}/projects/acme/scratch/archive/$CASE</DOUT_S_ROOT>
+    <MPILIBS>openmpi</MPILIBS>
+    <RUNDIR>$ENV{HOME}/Documents/E3SM_development/ACME_cases/$CASE/run</RUNDIR>
+    <EXEROOT>$ENV{HOME}/Documents/E3SM_development/ACME_cases/$CASE/bld</EXEROOT>
+    <DIN_LOC_ROOT>$ENV{HOME}/Documents/E3SM_development/cesm-inputdata</DIN_LOC_ROOT>    <DIN_LOC_ROOT_CLMFORC>$ENV{HOME}/projects/acme/ptclm-data</DIN_LOC_ROOT_CLMFORC>
+    <DOUT_S_ROOT>$ENV{HOME}/Documents/E3SM_development/scratch/archive/$CASE</DOUT_S_ROOT>
     <DOUT_L_MSROOT>csm/$CASE</DOUT_L_MSROOT>
-    <CIME_OUTPUT_ROOT>$ENV{HOME}/projects/acme/scratch</CIME_OUTPUT_ROOT>
-    <BASELINE_ROOT>$ENV{HOME}/projects/acme/baselines/$COMPILER</BASELINE_ROOT>
+    <CIME_OUTPUT_ROOT>$ENV{HOME}/Documents/E3SM_development/scratch</CIME_OUTPUT_ROOT>
+    <BASELINE_ROOT>$ENV{HOME}/Documents/E3SM_development/baselines/$COMPILER</BASELINE_ROOT>
     <!-- cmake -DCMAKE_Fortran_COMPILER=/opt/local/bin/mpif90-mpich-gcc48 -DHDF5_DIR=/opt/local -DNetcdf_INCLUDE_DIR=/opt/local/include .. -->
 >
     <CCSM_CPRNC>$CCSMROOT/tools/cprnc/build/cprnc</CCSM_CPRNC>
-    <SUPPORTED_BY>jnjohnson at lbl dot gov</SUPPORTED_BY>
-<!--    <GMAKE>make</GMAKE> <- this doesn't actually work! -->
+    <SUPPORTED_BY>pwolfram at lanl dot gov</SUPPORTED_BY>
+    <GMAKE>make</GMAKE>
     <GMAKE_J>4</GMAKE_J>
     <MAX_TASKS_PER_NODE>4</MAX_TASKS_PER_NODE>
     <MAX_MPITASKS_PER_NODE>2</MAX_MPITASKS_PER_NODE>
+    <mpirun mpilib="default">
+      <executable>mpirun</executable>
+      <arguments>
+        <arg name="num_tasks"> -np {{ total_tasks }}</arg>
+      </arguments>
+    </mpirun>
+    <environment_variables>
+      <env name="NETCDF_PATH">/usr/local/Cellar/netcdf/4.3.3.1/</env>
+    </environment_variables>
+    <environment_variables mpilib="!mpi-serial">
+      <env name="PNETCDF_PATH">/usr/local/Cellar/parallel-netcdf/1.4.1/</env>
+    </environment_variables>
 </machine>
 
 <machine MACH="linux-generic">
